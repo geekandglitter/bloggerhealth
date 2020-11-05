@@ -9,8 +9,11 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-import os
+
 from pathlib import Path
+import json  # we will use json to build an external secrets file that stays untracked
+import os  # this python package's functions allow interface with the OS: Windows, Mac or Linux to access to the path
+from django.core.exceptions import ImproperlyConfigured  # used by get_secret
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,8 +23,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'g$o=p$&4f1d9&hu2^)$&#m4fkn-7ys1_hgwpkrr!yrccc#rq(i'
+# OPEN SECRETS: This loads the secret json file. Found this solution on SO.###############
+with open(os.path.join(BASE_DIR, 'secrets.json')) as secrets_file:
+    secrets = json.load(secrets_file)
 
+
+def get_secret(setting, my_secrets=secrets):  # Get secret setting or fail with ImproperlyConfigured
+    try:
+        return my_secrets[setting]
+    except KeyError:
+        raise ImproperlyConfigured("Set the {} setting".format(setting))
+
+
+SECRET_KEY = get_secret("SECRET_KEY")  # SECRET_KEY is always in settings.py. Get its contents
+
+
+
+
+
+
+
+ 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
