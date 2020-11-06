@@ -21,6 +21,8 @@ def count_words(request):
     # loop through each recipe and count its words.
     # If word count is less than a hundred, store the recipe in a dictionary
     # create a list of all the dictionaries
+    # I tried to use this for my other blogs, but they don't all have "itemprop."
+    # They do all have post-body-####### (followed by a number for each post)
     ''' 
     
     import feedparser
@@ -58,6 +60,7 @@ def count_words_improved(request):
     # loop through each recipe and count its words.
     # If word count is less than a hundred, store the recipe in a dictionary
     # create a list of all the dictionaries
+    # I figured out that I could use selenium for post-body-<followed by post num> because selenium lets you do "contains."
     ''' 
     
     import feedparser
@@ -69,41 +72,40 @@ def count_words_improved(request):
     
     for i, post in enumerate(newfeed):
         from selenium.webdriver.common.by import By  
+         
+         
         i = i + 1
-        from selenium import webdriver       
-        #  driver = webdriver.Chrome("c:\\data\\chromedriver\\chromedriver.exe", options=options)
-        #driver = webdriver.Chrome(executable_path='chromedriver.exe')
-        #driver = webdriver.Chrome("C:\Windows")
-        driver = webdriver.Chrome("C:\\Users\\Linda\\Dev\\blogger_health\\myblogs\\chromedriver.exe")
+        from selenium import webdriver  
+        options = webdriver.ChromeOptions()       
+        options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--disable-features=NetworkService")
+        options.add_argument("--window-size=1920x1080")
+        options.add_argument("--disable-features=VizDisplayCompositor") 
+            
+        options.add_argument('--no-sandbox') # This is to prevent selenium webdriver chrome Message: unknown error: unable to discover open pages   
+        options.add_argument("window-size=1920x1080")
+        options.add_argument("headless")   
+        driver = webdriver.Chrome(options=options, executable_path="C:\\Users\\Linda\\Dev\\blogger_health\\myblogs\\chromedriver.exe")
         
-        #driver = webdriver.Chrome("c:\\data\\chromedriver\\chromedriver.exe")
-        #browser = webdriver.PhantomJS(executable_path = "/usr/local/Cellar/phantomjs/2.1.1/bin/phantomjs")
-        # UserWarning: Selenium support for PhantomJS has been deprecated, please use headless versions of Chrome or Firefox instead.
-        print("driver is", driver)
-        print("drive type is", type(driver))
-        print("post.link is", post.link)
-        print("type of post.link is", type(post.link))
-        # Perhaps you meant http://post.link?
-        url ="https://thecattycook.blogspot.com/2020/11/sugar-snap-peas-and-pasta.html"
+       
+   
+        url = post.link
         driver.get(url)    
-        result=driver.find_element(By.XPATH, '//*[@id="post-body-590782127147809932"]')
-        #result = r.find(id_='post-body-590782127147809932')
-        # elem=driver.find_element(By.XPATH, '//*[@id="search-6"]/form/label/input') # We
-        # //*[@id="post-body-590782127147809932"]
-        #print(result.text)     
       
+        result=driver.find_element(By.XPATH, '//*[contains(@id, "post-body-")]')   
         
         the_length = len(result.text)
-        print("the type of result is", type(result))
-        print("the_length is", the_length)
-        print("size is", the_length)
+         
         
         if the_length < 300:             
             if post.title == "":
                post.title = "NO TITLE"        
             feed_html = feed_html + "<a href=" + post.link + ">" + post.title + "</a>" + " " + str(the_length) + "<br>"  
                 
-    
+        driver.quit()
     if not feed_html:
         feed_html="none"
         
