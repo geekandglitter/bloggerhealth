@@ -1,4 +1,3 @@
-{% load static %}
 <!DOCTYPE html>
 
 <html lang="en">
@@ -6,7 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>This web app finds blog posts that are too short for Google Adsense</title>
-    <meta charset="UTF-8"/>
+     
+    {% load static %}
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
   
     
@@ -14,9 +14,9 @@
      <!--The above link belongs to Jason Morrow. I have to have it to get the CSS the way I want it. BUt I think the call to the birds
      picture is somewhere in here or in a child css of this css. I can't find it. So I will always have the situation in which
      the birds show up in my web app when they are cached.-->
-
-
-     <link rel="stylesheet" href="{% static "css/jasonmorrow.css" %}">
+      
+     
+     <link rel="stylesheet" type="text/css" href="{% static 'myblogs/css/jasonmorrow.css' %}">
     <!-- <link href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=639737653225043728&amp;zx=0f6661a9-8118-451c-ab2a-9f98a4d75e5f' media='none' onload='if(media!=&#39;all&#39;)media=&#39;all&#39;' rel='stylesheet'/><noscript><link href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=639737653225043728&amp;zx=0f6661a9-8118-451c-ab2a-9f98a4d75e5f' rel='stylesheet'/></noscript>
      -->
      <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}">
