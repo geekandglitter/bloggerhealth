@@ -116,9 +116,8 @@ def count_words_all_blogs(request):
     # I figured out that I could use selenium for post-body-<followed by post num> because selenium lets you do "contains."
     ''' 
     
-    
-    feed = (feedparser.parse(
-        'https://thecattycook.blogspot.com/feeds/posts/default?start-index=1&max-results=1000'))
+    url = "https://djangojoy.blogspot.com/feeds/posts/default?start-index=1&max-results=1000"
+    feed = (feedparser.parse(url))
     feed_html =""
     newfeed = list(feed.entries)
     options = webdriver.ChromeOptions()       
@@ -139,6 +138,7 @@ def count_words_all_blogs(request):
         driver.get(url)          
         result=driver.find_element(By.XPATH, '//*[contains(@id, "post-body-")]')           
         the_length = len(result.text)     
+         
         
         if the_length < 300:             
             if post.title == "":  # we need to put a placeholder in so it's easy to understand that there was no title
