@@ -13,9 +13,9 @@ body {
 font: normal normal 13px Arial, Tahoma, Helvetica, FreeSans, sans-serif;
 color: #666666;
 background: #fb5e53 url(https://resources.blogblog.com/blogblog/data/1kt/ethereal/birds-2toned-bg.png) repeat-x scroll top center;
-/* background: #2198a6 url(../img/birds.png) repeat-x scroll top center; */
-/* background: #bdfffe url(birds.png) repeat-x scroll top center; */
-/* background: #8bb0c9 url(/static/img/birds.png) repeat-x scroll top center; */
+background: #2198a6 url(../img/birds.png) repeat-x scroll top center; 
+background: #bdfffe url(birds.png) repeat-x scroll top center; */
+background: #8bb0c9 url(/static/img/birds.png) repeat-x scroll top center; */
 
 
 }
