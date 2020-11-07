@@ -15,6 +15,8 @@ from django.urls import path
 urlpatterns = [
     path("", views.home, name="home"),
     path('count_words.html', views.count_words),
+    path('count_words_improved.html', views.count_words_improved),
+    path('count_words_all_blogs.html', views.count_words_all_blogs),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
