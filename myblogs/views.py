@@ -9,6 +9,7 @@ import sys
 from selenium.webdriver.common.by import By  
 from selenium import webdriver  
 import feedparser
+from selenium.webdriver.chrome.service import Service as C_Service
 
 
 ###################################################
@@ -80,7 +81,12 @@ def count_words_improved(request):
 	options.add_argument("--disable-features=VizDisplayCompositor")             
 	options.add_argument('--no-sandbox') # This is to prevent selenium webdriver chrome Message: unknown error: unable to discover open pages   
 	options.add_argument("headless")   
-	driver = webdriver.Chrome(options=options, executable_path="C:\\Users\\Linda\\Dev\\blogger_health\\myblogs\\chromedriver.exe") 
+	sel_ver = sys.modules[webdriver.__package__].__version__[0]
+	if sel_ver == "4":        
+		service = C_Service("C:\\Users\\Linda\\Dev\\blogger_health\\myblogs\\chromedriver.exe") # Specify the custom path new for Selenium 4 
+		driver = webdriver.Chrome(options=options, service=service)        	 
+	else: 
+		driver = webdriver.Chrome(options=options, executable_path="C:\\Users\\Linda\\Dev\\blogger_health\\myblogs\\chromedriver.exe") 
 	
 	for i, post in enumerate(newfeed):    # Traverse through all the posts in the blog        
 		 
@@ -119,8 +125,7 @@ def count_words_all_blogs(request):
 		feed_html_list.append(the_title)
 		feed_html_list.append(feed_html)
 
-	#print("Feed html is", feed_html_list)
-	print("Titles are", the_titles_list)
+	 
 	return render(request, 'myblogs/count_words_all_blogs.html', {'feed_html_list': feed_html_list})
 #########################################
 def my_temp_name(url):  # this function builds the list
@@ -152,6 +157,13 @@ def my_temp_name(url):  # this function builds the list
 	options.add_argument("--disable-features=VizDisplayCompositor")             
 	options.add_argument('--no-sandbox') # This is to prevent selenium webdriver chrome Message: unknown error: unable to discover open pages   
 	options.add_argument("headless")   
+	sel_ver = sys.modules[webdriver.__package__].__version__[0]
+	
+	if sel_ver == "4":        
+		service = C_Service("C:\\Users\\Linda\\Dev\\blogger_health\\myblogs\\chromedriver.exe") # Specify the custom path new for Selenium 4 
+		driver = webdriver.Chrome(options=options, service=service)        	 
+	else: 
+		driver = webdriver.Chrome(options=options, executable_path="C:\\Users\\Linda\\Dev\\blogger_health\\myblogs\\chromedriver.exe") 
 	driver = webdriver.Chrome(options=options, executable_path="C:\\Users\\Linda\\Dev\\blogger_health\\myblogs\\chromedriver.exe") 
 	
 	for i, post in enumerate(newfeed):    # Traverse through all the posts in the blog        
@@ -166,7 +178,7 @@ def my_temp_name(url):  # this function builds the list
 		
 		if the_length < 100:             
 			if post.title == "":  # we need to put a placeholder in so it's easy to understand that there was no title
-			   post.title = "<i><b>NO TITLE</b></i>"        
+			   post.title = "<i>NO TITLE</i>"        
 			feed_html = feed_html + "<a href=" + post.link + ">" + post.title + "</a>" + ": " + str(the_length) + "<br>"  
 				
 	driver.quit()    
