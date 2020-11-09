@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h3>These posts have fewer than 300 chars. </h3>
-  <p>Click through each one, and fix or revert to draft</p> 
-  <p style="font-size: 18px">{{feed_html | safe}}</p>
+  <h1> {{the_title}}</h1> 
+  <p>These posts have fewer than 300 words <br>
+  Click through each one, and fix or revert to draft</p> 
+  <p style="font-size: 14px">{{feed_html | safe}}</p>
 
      
 
