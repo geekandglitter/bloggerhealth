@@ -119,7 +119,7 @@ def count_words_all_blogs(request):
 	url_list=[]
 	url_list= url1, url2, url3, url4, url5
 	feed_html_list=[]
-	the_titles_list=[]
+	
 	for i in range(5):
 		feed_html, the_title = my_temp_name(url_list[i])
 		feed_html_list.append(the_title)
